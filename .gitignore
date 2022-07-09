@@ -1,0 +1,4 @@
+#Ignorando Pastas
+/bin
+/obj
+/.vs
