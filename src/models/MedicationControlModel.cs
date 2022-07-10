@@ -12,9 +12,6 @@ namespace Pharmacy.src.models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        public int NumberOfTimes { get; set; }
-
         [ForeignKey("fk_medicine")]
         public Medicine MedicineTaken { get; set; }
 
