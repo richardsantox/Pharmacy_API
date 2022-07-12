@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pharmacy.src.context;
+using Pharmacy.src.dtos;
 using Pharmacy.src.models;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace Pharmacy.src.repositories.Implementations
 {
+    /// <summary>
+    /// <para>Resumo: Classe responsável por implementar IPatient</para>
+    /// <para>Criado por: Richard Santos</para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 09/07/2022</para>
+    /// </summary>
     public class PatientRepository : IPatient
     {
         #region Attributes
@@ -23,26 +30,40 @@ namespace Pharmacy.src.repositories.Implementations
             _context = context;
         }
 
+
+
         #endregion
 
 
         #region Methods
 
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para buscar todos os pacientes que tomaram um remédio</para>
+        /// </summary>
+        /// <param name="name">string</param>
         public async Task<List<MedicationControl>> GetAllMedicineTakensAsync(string name)
         {
             return await _context.MedicationControls
-                .Include(c => c.Patient)
-                .Include(c => c.MedicineTaken)
-                .Where(c => c.Patient.Name == name)
-                .ToListAsync();
+              .Include(c => c.Patient)
+              .Include(c => c.MedicineTaken)
+              .Where(c => c.Patient.Name == name)
+              .ToListAsync();
         }
 
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para pegar todos os patient</para>
+        /// </summary>
+        /// <return>Lista Patient</return>
         public async Task<List<Patient>> GetAllPatiensAsync()
         {
             return await _context.Patients.ToListAsync();
         }
 
-        public async Task NewPatientAsync(Patient patient)
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para salvar um novo paciente</para>
+        /// </summary>
+        /// <param name="patient">PatientDTO</param>
+        public async Task NewPatientAsync(PatientDTO patient)
         {
             await _context.Patients.AddAsync(new Patient
             {

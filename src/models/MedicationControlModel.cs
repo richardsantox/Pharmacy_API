@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.src.models
 {
+    /// <summary>
+    /// <para>Resumo: Classe responsável por representar tb_medication_control no banco.</para>
+    /// <para>Criado por: Richard Santos</para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 09/07/2022</para>
+    /// </summary>
     [Table("tb_medication_control")]
     public class MedicationControl
     {

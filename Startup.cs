@@ -7,12 +7,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Pharmacy.src.context;
 using Pharmacy.src.repositories;
 using Pharmacy.src.repositories.Implementations;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Pharmacy
@@ -34,12 +37,23 @@ namespace Pharmacy
             services.AddDbContext<PharmacyContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
             // Controllers Configuration
+            services.AddCors();
             services.AddControllers();
 
             // Repositories Configuration
             services.AddScoped<IPatient, PatientRepository>();
-            services.AddScoped<IMedicine, MediceRepository>();
+            services.AddScoped<IMedicine, MedicineRepository>();
             services.AddScoped<IMedicationControl, MedicationControlRepository>();
+
+            // Swagger Configuratin 
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "Pharmacy", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,13 +64,32 @@ namespace Pharmacy
             {
                 context.Database.EnsureCreated();
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pharmacy v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
 
+            // Production environment
             context.Database.EnsureCreated();
             app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pharmacy v1");
+                c.RoutePrefix = string.Empty;
+            });
 
+            // Routes
             app.UseRouting();
 
+            app.UseCors(c => c
+                  .AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+              );
+
+            // Authorization
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

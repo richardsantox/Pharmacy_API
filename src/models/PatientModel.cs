@@ -5,6 +5,12 @@ using System.Text.Json.Serialization;
 
 namespace Pharmacy.src.models
 {
+    /// <summary>
+    /// <para>Resumo: Classe responsásvel por representar tb_patient no banco.</para>
+    /// <para>Criado por: Richard Santos</para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 09/07/2022</para>
+    /// </summary>
     [Table("tb_patient")]
     public class Patient
     {
