@@ -2,6 +2,8 @@
 using Pharmacy.src.context;
 using Pharmacy.src.dtos;
 using Pharmacy.src.models;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,12 +32,30 @@ namespace Pharmacy.src.repositories.Implementations
             _context = context;
         }
 
-
-
         #endregion
 
 
         #region Methods
+
+        /// <summary>
+        /// <para>Resumo: Método assíncrono que retorna a quantidade de medicação que cada paciente tomou</para>
+        /// </summary>
+        public async Task<IEnumerable> AmounMedicationPatientsWhoHaveAlreadyTakenAsync()
+        {
+            var list = await _context.MedicationControls
+                .Include(mc => mc.MedicineTaken)
+                .Include(mc => mc.Patient)
+                .ToListAsync();
+            var num = list
+                .GroupBy(p => p.Patient.Name)
+                .Select(s => new
+                {
+                    Patient = s.Key,
+                    Quantity_Medicine = s.Count(),
+                });
+
+            return num;
+        }
 
         /// <summary>
         /// <para>Resumo: Método assíncrono para buscar todos os pacientes que tomaram um remédio</para>

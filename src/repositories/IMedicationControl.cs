@@ -1,4 +1,7 @@
 ﻿using Pharmacy.src.dtos;
+using Pharmacy.src.repositories.Implementations;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Pharmacy.src.repositories
@@ -12,5 +15,6 @@ namespace Pharmacy.src.repositories
     public interface IMedicationControl
     {
         Task NewControlAsync(MedicationControlDTO medicationControl);
+        Task <IEnumerable> GetTheControlDataAsync();
     }
 }

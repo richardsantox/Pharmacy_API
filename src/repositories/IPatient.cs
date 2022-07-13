@@ -1,5 +1,6 @@
 ﻿using Pharmacy.src.dtos;
 using Pharmacy.src.models;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,5 +17,6 @@ namespace Pharmacy.src.repositories
         Task NewPatientAsync(PatientDTO patient);
         Task <List<Patient>>GetAllPatiensAsync();
         Task <List<MedicationControl>> GetAllMedicineTakensAsync(string name);
+        Task<IEnumerable> AmounMedicationPatientsWhoHaveAlreadyTakenAsync();
     }
 }

@@ -2,6 +2,7 @@
 using Pharmacy.src.context;
 using Pharmacy.src.dtos;
 using Pharmacy.src.models;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,6 +70,26 @@ namespace Pharmacy.src.repositories.Implementations
             });
 
             await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// <para>Resumo: Método assíncrono que retorna a quantidade de pacientes que tomaram cada medicamento</para>
+        /// </summary>
+        public async Task<IEnumerable> NumberPatientsWhoHaveAlreadyTakenTheDrugAsync()
+        {
+            var list = await _context.MedicationControls
+                .Include(mc => mc.MedicineTaken)
+                .Include(mc => mc.Patient)
+                .ToListAsync();
+            var num = list
+                .GroupBy(p => p.MedicineTaken.Name)
+                .Select(s => new
+                {
+                    Medicine = s.Key,
+                    Quantity_Patient = s.Count(),
+                });
+
+            return num;
         }
 
         #endregion

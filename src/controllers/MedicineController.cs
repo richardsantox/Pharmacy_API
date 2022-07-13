@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Pharmacy.src.dtos;
 using Pharmacy.src.models;
 using Pharmacy.src.repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace Pharmacy.src.controllers
@@ -41,13 +43,15 @@ namespace Pharmacy.src.controllers
         ///
         ///     POST /api/Medicine
         ///     {
-        ///        "name": "Dorflex",
+        ///        "name": "Dorflex"
         ///     }
         ///
         /// </remarks>
         /// <response code="201">Retorna medicamento criado</response>
         /// <response code="400">Erro na requisição</response>
-        [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MedicineDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("Register")]
         public async Task<ActionResult> NewMedicineAsync([FromBody] MedicineDTO medicine)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -63,6 +67,8 @@ namespace Pharmacy.src.controllers
         /// <returns>ActionResult</returns>
         /// <response code="200">Lista de medicamentos</response>
         /// <response code="204">Lista vazia</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet("GetAllMedicines")]
         public async Task<ActionResult> GetAllMedicinesAsync()
         {
@@ -80,14 +86,28 @@ namespace Pharmacy.src.controllers
         /// <returns>ActionResult</returns>
         /// <response code="200">Lista de pacientes que tomaram o medicamento</response>
         /// <response code="204">Lista vazia</response>
-        [HttpGet("patientsWhoTook")]
-        public  async Task<ActionResult> GetAllPatientsWhoTookAsync(string name)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpGet("GetAllPatientsWhoTook")]
+        public  async Task<ActionResult> GetAllPatientsWhoTookAsync([FromQuery] string name)
         {
             var list = await _repository.GetAllPatientsWhoTookAsync(name);
 
             if (list.Count < 1) return NoContent();
 
             return Ok(list);
+        }
+
+        /// <summary>
+        /// Pegar quantidade de pacientes que cada medicamento teve
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Quantidade de pacientes consumistas por medicamentos</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("NumberPatientWhoTook")]
+        public async Task<ActionResult<int>> NumberPatientsWhoHaveAlreadyTakenTheDrugAsync()
+        {
+            return Ok(await _repository.NumberPatientsWhoHaveAlreadyTakenTheDrugAsync());
         }
 
         #endregion

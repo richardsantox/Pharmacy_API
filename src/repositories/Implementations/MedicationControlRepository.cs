@@ -3,6 +3,8 @@ using Pharmacy.src.context;
 using Pharmacy.src.dtos;
 using Pharmacy.src.models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -63,6 +65,26 @@ namespace Pharmacy.src.repositories.Implementations
             }
         }
 
+        public async Task<IEnumerable> GetTheControlDataAsync()
+        {
+            var list = await _context.MedicationControls
+                .Include(m => m.MedicineTaken)
+                .Include(m => m.Patient)
+                .ToListAsync();
+
+            var result = list
+                .GroupBy(u => u.Patient.Name)
+                .Select(c => new 
+                {
+                    Key = c.Key,
+                    Quantity = c.Count(),
+                    Items = c.ToList()
+                });
+
+            return result;
+        }
+
         #endregion
     }
+
 }
