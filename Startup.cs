@@ -36,8 +36,8 @@ namespace Pharmacy
             if (Configuration["Enviroment:Start"] == "PROD")
             {
                 services.AddEntityFrameworkNpgsql()
-                     .AddDbContext<PharmacyContext>(opt =>
-                     opt.UseNpgsql(Configuration["ConnectionStringsPROD:DefaultConnectionPROD"]));
+                     .AddDbContext<PharmacyContext>(
+                     opt => opt.UseNpgsql(Configuration["ConnectionStringsPROD:DefaultConnection"]));
             }
             else
             {
