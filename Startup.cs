@@ -33,8 +33,17 @@ namespace Pharmacy
         public void ConfigureServices(IServiceCollection services)
         {
             // Database Configuration
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<PharmacyContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            if (Configuration["Enviroment:Start"] == "PROD")
+            {
+                services.AddEntityFrameworkNpgsql()
+                     .AddDbContext<PharmacyContext>(opt =>
+                     opt.UseNpgsql(Configuration["ConnectionStringPROD:DefaultConnectionPROD"]));
+            }
+            else
+            {
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                services.AddDbContext<PharmacyContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+            }
 
             // Controllers Configuration
             services.AddCors();
