@@ -76,7 +76,7 @@ namespace Pharmacy.src.repositories.Implementations
                 .GroupBy(u => u.Patient.Name)
                 .Select(c => new 
                 {
-                    Key = c.Key,
+                    Name = c.Key,
                     Quantity = c.Count(),
                     Items = c.ToList()
                 });
