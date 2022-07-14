@@ -33,7 +33,9 @@
   
   :heavy_check_mark: `Funcionalidade 6:` Visualizar quantos medicamentos um paciente teve. 
   
-  :heavy_check_mark: `Funcionalidade 7:` Visualizar lista de controle de medicação. 
+  :heavy_check_mark: `Funcionalidade 7:` Visualizar quantos pacientes um medicamento teve. 
+  
+  :heavy_check_mark: `Funcionalidade 8:` Visualizar lista de controle de medicação. 
   
   
   ## Tabelas do Banco de Dados
