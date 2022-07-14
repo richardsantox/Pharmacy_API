@@ -23,7 +23,7 @@
   
   :heavy_check_mark: `Funcionalidade 1:` Realizar cadastro dos pacientes.
   
-  :heavy_check_mark: `Funcionalidade 2:` Realizar cadastro dos Medicamentos.
+  :heavy_check_mark: `Funcionalidade 2:` Realizar cadastro dos medicamentos.
   
   :heavy_check_mark: `Funcionalidade 3:` Visualizar lista de pacientes.
   
