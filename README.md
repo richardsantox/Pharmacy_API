@@ -1,6 +1,6 @@
 
 # Pharmacy API 💊
-  <img src="https://i.imgur.com/4NAwFVO.png" alt="Logo" >
+  <img src="https://i.imgur.com/mVNiunh.png" alt="Logo" >
   <br/>
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
@@ -9,7 +9,7 @@
 
 * [Sobre a API](#sobre-a-api)
 * [Tabelas do Banco de Dados](#tabelas-do-banco-de-dados) 
-* [Tecnologias utilizadas](#tecnologias-utulizadas)
+* [Ferramentas utilizadas](#ferramentas-utilizadas)
 * [Autor](#autor)
 
 
@@ -49,7 +49,7 @@
   * Medicamentos 
   * Controle de medicação
   
-  ## Tecnologias utilizadas
+  ## Ferramentas utilizadas
   
   - ``ASP.NET``
   - ``.NET Core 5``
