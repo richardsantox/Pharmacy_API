@@ -2,6 +2,7 @@
 using Pharmacy.src.context;
 using Pharmacy.src.dtos;
 using Pharmacy.src.models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,13 +50,28 @@ namespace Pharmacy.src.repositories.Implementations
         /// <para>Resumo: Método assíncrono para buscar todos os remédios tomados por um paciente</para>
         /// </summary>
         /// <param name="name">string</param>
-        public async Task<List<MedicationControl>> GetAllPatientsWhoTookAsync(string name)
+        public async Task<IEnumerable> GetAllPatientsWhoTookAsync(string name)
         {
-            return await _context.MedicationControls
+            var list = await _context.MedicationControls
                 .Include(c => c.Patient)
                 .Include(c => c.MedicineTaken)
                 .Where(c => c.MedicineTaken.Name == name)
                 .ToListAsync();
+
+            var patients = list
+                .GroupBy(p => p.Patient.Name)
+                .Select(s => s.Key );
+
+            return patients;
+        }
+
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para pegar Medicamento pelo nome</para>
+        /// </summary>
+        /// <param name="name">string</param>
+        public async Task<Medicine> GetMedicineByNameAsync(string name)
+        {
+            return await _context.Medicines.FirstOrDefaultAsync(m => m.Name == name);
         }
 
         /// <summary>
@@ -64,6 +80,9 @@ namespace Pharmacy.src.repositories.Implementations
         /// <param name="medicine">MedicineDTO</param>
         public async Task NewMedicineAsync(MedicineDTO medicine)
         {
+            var user = await GetMedicineByNameAsync(medicine.Name);
+            if (user != null) throw new Exception("Medicamento já existe no sistema");
+
             await _context.Medicines.AddAsync(new Medicine
             {
                 Name = medicine.Name

@@ -52,8 +52,7 @@ namespace Pharmacy.src.repositories.Implementations
             });
             await _context.SaveChangesAsync();
 
-
-            bool ExistPatient (string name)
+            bool ExistPatient(string name)
             {
                 var aux = _context.Patients.FirstOrDefault(p => p.Name == name);
                 return aux != null;

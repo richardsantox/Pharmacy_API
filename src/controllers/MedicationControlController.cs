@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pharmacy.src.dtos;
 using Pharmacy.src.models;
 using Pharmacy.src.repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace Pharmacy.src.controllers
@@ -60,8 +61,17 @@ namespace Pharmacy.src.controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _repository.NewControlAsync(medicationControl);
-            return Created($"api/MedicationControl", medicationControl);
+            try
+            {
+                await _repository.NewControlAsync(medicationControl);
+                return Created($"api/MedicationControl", medicationControl);
+            } 
+            catch (Exception ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+
+
         }
 
         /// <summary>

@@ -51,23 +51,42 @@ namespace Pharmacy.src.repositories.Implementations
                 .Select(s => new
                 {
                     Patient = s.Key,
-                    Quantity_Medicine = s.Count(),
+                    Amount_of_medicine = s.Count(),
                 });
 
             return num;
         }
 
         /// <summary>
-        /// <para>Resumo: Método assíncrono para buscar todos os pacientes que tomaram um remédio</para>
+        /// <para>Resumo: Método assíncrono para pegar Paciente pelo nome</para>
         /// </summary>
         /// <param name="name">string</param>
-        public async Task<List<MedicationControl>> GetAllMedicineTakensAsync(string name)
+        public async Task<Patient> GetPatientByNameAsync(string name)
         {
-            return await _context.MedicationControls
+            return await _context.Patients.FirstOrDefaultAsync(p => p.Name == name);
+        }
+
+        /// <summary>
+        /// <para>Resumo: Método assíncrono para pegar todos os medicamentos tomados por um paciente</para>
+        /// </summary>
+        /// <param name="name">string</param>
+        public async Task<IEnumerable> GetAllMedicineTakensAsync(string name)
+        {
+            var list = await _context.MedicationControls
               .Include(c => c.Patient)
               .Include(c => c.MedicineTaken)
               .Where(c => c.Patient.Name == name)
               .ToListAsync();
+
+            var medicines = list
+                .GroupBy(m => m.MedicineTaken.Name)
+                .Select(s => new
+                {
+                    Medication = s.Key,
+                    number_of_times = s.Count()
+                });
+
+            return medicines;
         }
 
         /// <summary>
@@ -85,6 +104,9 @@ namespace Pharmacy.src.repositories.Implementations
         /// <param name="patient">PatientDTO</param>
         public async Task NewPatientAsync(PatientDTO patient)
         {
+            var user = await GetPatientByNameAsync(patient.Name);
+            if (user != null) throw new Exception("Paciente já existe no sistema");
+
             await _context.Patients.AddAsync(new Patient
             {
                 Name = patient.Name

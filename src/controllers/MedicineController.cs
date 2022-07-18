@@ -49,15 +49,26 @@ namespace Pharmacy.src.controllers
         /// </remarks>
         /// <response code="201">Retorna medicamento criado</response>
         /// <response code="400">Erro na requisição</response>
+        /// <response code="401">Paciente ja cadastrado</response>
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MedicineDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("Register")]
         public async Task<ActionResult> NewMedicineAsync([FromBody] MedicineDTO medicine)
         {
             if (!ModelState.IsValid) return BadRequest();
+            try
+            {
+                await _repository.NewMedicineAsync(medicine);
 
-            await _repository.NewMedicineAsync(medicine);
-            return Created($"api/Medicine/name/{medicine.Name}", medicine);
+                return Created($"api/Medicine/name/{medicine.Name}", medicine);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+
+            
         }
 
 
@@ -91,11 +102,7 @@ namespace Pharmacy.src.controllers
         [HttpGet("GetAllPatientsWhoTook")]
         public  async Task<ActionResult> GetAllPatientsWhoTookAsync([FromQuery] string name)
         {
-            var list = await _repository.GetAllPatientsWhoTookAsync(name);
-
-            if (list.Count < 1) return NoContent();
-
-            return Ok(list);
+            return Ok(await _repository.GetAllPatientsWhoTookAsync(name));
         }
 
         /// <summary>

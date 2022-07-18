@@ -15,8 +15,9 @@ namespace Pharmacy.src.repositories
     public interface IMedicine
     {
         Task NewMedicineAsync(MedicineDTO medicine);
+        Task <Medicine> GetMedicineByNameAsync(string name);
         Task <List<Medicine>>GetAllMedicinesAsync();
-        Task <List<MedicationControl>>GetAllPatientsWhoTookAsync(string name);
+        Task <IEnumerable> GetAllPatientsWhoTookAsync(string name);
         Task<IEnumerable> NumberPatientsWhoHaveAlreadyTakenTheDrugAsync();
     }
 }

@@ -49,15 +49,25 @@ namespace Pharmacy.src.controllers
         /// </remarks>
         /// <response code="201">Retorna paciente criado</response>
         /// <response code="400">Erro na requisição</response>
+        /// <response code="401">Paciente ja cadastrado</response>
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PatientDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("Register")]
         public async Task<ActionResult> NewPatientAsync([FromBody] PatientDTO patient)
         {
             if (!ModelState.IsValid) return BadRequest();
+            try
+            {
+                await _repository.NewPatientAsync(patient);
 
-            await _repository.NewPatientAsync(patient);
-            return Created($"api/Patient/name/{patient.Name}", patient);
+                return Created($"api/Patient/name/{patient.Name}", patient);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            
         }
 
 
@@ -90,11 +100,7 @@ namespace Pharmacy.src.controllers
         [HttpGet("GetAllMedicineTakens")]
         public async Task<ActionResult> GetAllMedicineTakensAsync([FromQuery] string name)
         {
-            var list = await _repository.GetAllMedicineTakensAsync(name);
-
-            if (list.Count < 1) return NoContent();
-
-            return Ok(list);
+            return Ok(await _repository.GetAllMedicineTakensAsync(name));
         }
 
         /// <summary>
@@ -110,6 +116,5 @@ namespace Pharmacy.src.controllers
         }
 
         #endregion
-
     }
 }
