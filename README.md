@@ -19,27 +19,24 @@
 
   <p>O sistema permite criar e monitorar os dados. Dados esses que são: os pacientes, os medicamentos e o registro do paciente que tomou determinado medicamento.</p>
   
-  <p>Suas funcionalidades são:</p>
+  <p>Suas principais funcionalidades são:</p>
   
-  :heavy_check_mark: `Funcionalidade 1:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 1:` Realizar cadastro dos pacientes.
   
-  :heavy_check_mark: `Funcionalidade 2:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 2:` Realizar cadastro dos medicamentos.
   
-  :heavy_check_mark: `Funcionalidade 3:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 3:` Visualizar lista de pacientes.
   
-  :heavy_check_mark: `Funcionalidade 4:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 4:` Visualizar lista de medicamentos.
   
-  :heavy_check_mark: `Funcionalidade 5:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 5:` Atribuir que um paciente tomou medicamento.
   
-  :heavy_check_mark: `Funcionalidade 6:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 6:` Visualizar quantos medicamentos um paciente teve. 
   
-  :heavy_check_mark: `Funcionalidade 7:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 7:` Visualizar quantos pacientes um medicamento teve. 
   
-  :heavy_check_mark: `Funcionalidade 8:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
+  :heavy_check_mark: `Funcionalidade 8:` Visualizar lista de controle de medicação. 
   
-  :heavy_check_mark: `Funcionalidade 9:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
-  
-  :heavy_check_mark: `Funcionalidade 10:` Realizar cadastro dos usuários, podendo ser paciente ou profissional de saúde.
   
   ## Tabelas do Banco de Dados
   
